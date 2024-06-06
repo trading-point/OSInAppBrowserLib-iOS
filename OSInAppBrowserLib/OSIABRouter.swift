@@ -1,7 +1,9 @@
-/// The external browser router object, to be implemented by the objects who trigger the call.
+/// The browser router object, to be implemented by the objects who trigger the call.
 public protocol OSIABRouter {
-    /// Opens the passed `url` in the Safari app.
+    associatedtype ReturnType
+    
+    /// Handles opening the passed `url`.
     /// - Parameter url: URL to be opened.
-    /// - Returns: Indicates if the operation was successful or not.
-    func openInSafari(_ url: String) -> Bool
+    /// - Parameter completionHandler: The callback with the result of opening the url.
+    func handleOpen(_ url: String, _ completionHandler: @escaping (ReturnType) -> Void)
 }

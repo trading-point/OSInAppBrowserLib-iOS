@@ -151,27 +151,25 @@ private struct OSIABTestNavigationView: View {
     }
 }
 
-#Preview("Default - Light Mode") {
-    OSIABTestNavigationView()
-}
+struct OSIABNavigationView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Default - Light Mode
+        OSIABTestNavigationView()
 
-#Preview("Default - Dark Mode") {
-    OSIABTestNavigationView()
-        .preferredColorScheme(.dark)
-}
+        // Default - Dark Mode
+        OSIABTestNavigationView()
+            .preferredColorScheme(.dark)
 
-#Preview("Show Navigation Buttons Disabled") {
-    OSIABTestNavigationView(showNavigationButtons: false)
-}
+        // Show Navigation Buttons Disabled
+        OSIABTestNavigationView(showNavigationButtons: false)
 
-#Preview("Back Button Enabled") {
-    OSIABTestNavigationView(backButtonEnabled: true)
-}
+        // Back Button Enabled
+        OSIABTestNavigationView(backButtonEnabled: true)
 
-#Preview("Forward Button Enabled") {
-    OSIABTestNavigationView(forwardButtonEnabled: true)
-}
+        // Forward Button Enabled
+        OSIABTestNavigationView(forwardButtonEnabled: true)
 
-#Preview("Both Buttons Enabled") {
-    OSIABTestNavigationView(backButtonEnabled: true, forwardButtonEnabled: true)
+        // Both Buttons Enabled
+        OSIABTestNavigationView(backButtonEnabled: true, forwardButtonEnabled: true)
+    }
 }

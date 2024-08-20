@@ -4,13 +4,13 @@ import SwiftUI
 struct OSIABWebView: View {
     /// View Model containing all the customisable elements.
     @ObservedObject private var model: OSIABWebViewModel
-    
+
     /// Constructor method.
     /// - Parameter model: View Model containing all the customisable elements.
     init(_ model: OSIABWebViewModel) {
         self.model = model
     }
-    
+
     var body: some View {
         VStack {
             if let toolbarPosition = model.toolbarPosition {
@@ -28,7 +28,7 @@ struct OSIABWebView: View {
                         )
                     }
                     Spacer()
-                    
+
                     Button(action: model.closeButtonPressed, label: {
                         Text(model.closeButtonText)
                             .bold()
@@ -39,14 +39,14 @@ struct OSIABWebView: View {
             }
             if let error = model.error {
                 OSIABErrorView(
-                    error, 
+                    error,
                     reload: model.loadURL,
                     reloadViewLayoutDirection: .fixed(value: .leftToRight)
                 )
             } else {
                 OSIABWebViewRepresentable(model.webView)
             }
-            
+
             if model.toolbarPosition == .bottom {
                 OSIABNavigationView(
                     showNavigationButtons: model.showNavigationButtons,
@@ -72,7 +72,7 @@ struct OSIABWebView: View {
 private extension OSIABWebViewModel {
     convenience init(
         url: String,
-        showURL: Bool, 
+        showURL: Bool,
         showToolbar: Bool,
         toolbarPosition: OSIABToolbarPosition,
         showNavigationButtons: Bool,
@@ -112,7 +112,7 @@ private struct OSIABTestWebView: View {
     private let showNavigationButtons: Bool
     private let leftToRight: Bool
     private let isError: Bool
-    
+
     init(
         closeButtonText: String = "Close",
         showURL: Bool = true,
@@ -130,7 +130,7 @@ private struct OSIABTestWebView: View {
         self.leftToRight = leftToRight
         self.isError = isError
     }
-    
+
     var body: some View {
         VStack {
             OSIABWebView(
@@ -150,142 +150,128 @@ private struct OSIABTestWebView: View {
     }
 }
 
-// MARK: - Default Views
+struct OSIABWebView_Previews: PreviewProvider {
+    static var previews: some View {
+        // MARK: - Default Views
 
-#Preview("Default - Light Mode") {
-    OSIABTestWebView()
-}
+        // Default - Light Mode
+        OSIABTestWebView()
 
-#Preview("Default - Dark Mode") {
-    OSIABTestWebView()
-        .preferredColorScheme(.dark)
-}
+        // Default - Dark Mode
+        OSIABTestWebView()
+            .preferredColorScheme(.dark)
 
-#Preview("Error - Light Mode") {
-    OSIABTestWebView(isError: true)
-}
+        // Error - Light Mode
+        OSIABTestWebView(
+            isError: true
+        )
 
-// MARK: - Custom Close Button View
+        // MARK: - Custom Close Button View
 
-#Preview("Custom Close Button Text") {
-    OSIABTestWebView(
-        closeButtonText: "Done"
-    )
-}
+        // Custom Close Button Text
+        OSIABTestWebView(
+            closeButtonText: "Done"
+        )
 
-// MARK: - No Toolbar View
+        // MARK: - No Toolbar View
 
-#Preview("No Toolbar") {
-    OSIABTestWebView(
-        showToolbar: false
-    )
-}
+        // No Toolbar
+        OSIABTestWebView(
+            showToolbar: false
+        )
 
-// MARK: - Custom Views
+        // MARK: - Custom Views
 
-#Preview("No URL and No Navigation Buttons") {
-    OSIABTestWebView(
-        showURL: false, 
-        showNavigationButtons: false
-    )
-}
+        // No URL and No Navigation Buttons
+        OSIABTestWebView(
+            showURL: false,
+            showNavigationButtons: false
+        )
 
-#Preview("No URL, No Navigation Buttons and Left-to-Right") {
-    OSIABTestWebView(
-        showURL: false, 
-        showNavigationButtons: false,
-        leftToRight: true
-    )
-}
+        // No URL, No Navigation Buttons and Left-to-Right
+        OSIABTestWebView(
+            showURL: false,
+            showNavigationButtons: false,
+            leftToRight: true
+        )
 
-#Preview("No URL") {
-    OSIABTestWebView(
-        showURL: false
-    )
-}
+        // No URL
+        OSIABTestWebView(
+            showURL: false
+        )
 
-#Preview("No URL and Left-To-Right") {
-    OSIABTestWebView(
-        showURL: false, 
-        leftToRight: true
-    )
-}
+        // No URL and Left-To-Right
+        OSIABTestWebView(
+            showURL: false,
+            leftToRight: true
+        )
 
-#Preview("No URL, Bottom Toolbar and No Navigation Buttons") {
-    OSIABTestWebView(
-        showURL: false, 
-        toolbarPosition: .bottom,
-        showNavigationButtons: false
-    )
-}
+        // No URL, Bottom Toolbar and No Navigation Buttons
+        OSIABTestWebView(
+            showURL: false,
+            toolbarPosition: .bottom,
+            showNavigationButtons: false
+        )
 
-#Preview("No URL, Bottom Toolbar, No Navigation Buttons and Left-to-Right") {
-    OSIABTestWebView(
-        showURL: false, 
-        toolbarPosition: .bottom,
-        showNavigationButtons: false, 
-        leftToRight: true
-    )
-}
+        // No URL, Bottom Toolbar, No Navigation Buttons and Left-to-Right
+        OSIABTestWebView(
+            showURL: false,
+            toolbarPosition: .bottom,
+            showNavigationButtons: false,
+            leftToRight: true
+        )
 
-#Preview("No URL and Bottom Toolbar") {
-    OSIABTestWebView(
-        showURL: false,
-        toolbarPosition: .bottom
-    )
-}
+        // No URL and Bottom Toolbar
+        OSIABTestWebView(
+            showURL: false,
+            toolbarPosition: .bottom
+        )
 
-#Preview("No URL, Bottom Toolbar and Left-to-Right") {
-    OSIABTestWebView(
-        showURL: false,
-        toolbarPosition: .bottom,
-        leftToRight: true
-    )
-}
+        // No URL, Bottom Toolbar and Left-to-Right
+        OSIABTestWebView(
+            showURL: false,
+            toolbarPosition: .bottom,
+            leftToRight: true
+        )
 
-#Preview("No Navigation Buttons") {
-    OSIABTestWebView(
-        showNavigationButtons: false
-    )
-}
+        // No Navigation Buttons
+        OSIABTestWebView(
+            showNavigationButtons: false
+        )
 
-#Preview("No Navigation Buttons and Left-to-Right") {
-    OSIABTestWebView(
-        showNavigationButtons: false,
-        leftToRight: true
-    )
-}
+        // No Navigation Buttons and Left-to-Right
+        OSIABTestWebView(
+            showNavigationButtons: false,
+            leftToRight: true
+        )
 
-#Preview("Left-to-Right") {
-    OSIABTestWebView(
-        leftToRight: true
-    )
-}
+        // Left-to-Right
+        OSIABTestWebView(
+            leftToRight: true
+        )
 
-#Preview("Bottom Toolbar and No Navigation Buttons") {
-    OSIABTestWebView(
-        toolbarPosition: .bottom, 
-        showNavigationButtons: false
-    )
-}
+        // Bottom Toolbar and No Navigation Buttons
+        OSIABTestWebView(
+            toolbarPosition: .bottom,
+            showNavigationButtons: false
+        )
 
-#Preview("Bottom Toolbar, No Navigation Buttons and Left-to-Right") {
-    OSIABTestWebView(
-        toolbarPosition: .bottom,
-        showNavigationButtons: false,
-        leftToRight: true
-    )
-}
+        // Bottom Toolbar, No Navigation Buttons and Left-to-Right
+        OSIABTestWebView(
+            toolbarPosition: .bottom,
+            showNavigationButtons: false,
+            leftToRight: true
+        )
 
-#Preview("Bottom Toolbar") {
-    OSIABTestWebView(
-        toolbarPosition: .bottom
-    )
-}
+        // Bottom Toolbar
+        OSIABTestWebView(
+            toolbarPosition: .bottom
+        )
 
-#Preview("Bottom Toolbar and Left-to-Right") {
-    OSIABTestWebView(
-        toolbarPosition: .bottom,
-        leftToRight: true
-    )
+        // Bottom Toolbar and Left-to-Right
+        OSIABTestWebView(
+            toolbarPosition: .bottom,
+            leftToRight: true
+        )
+    }
 }

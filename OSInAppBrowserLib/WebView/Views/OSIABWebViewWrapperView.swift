@@ -5,13 +5,13 @@ import SwiftUI
 struct OSIABWebViewWrapperView: View {
     /// View Model containing all the customisable elements.
     @StateObject private var model: OSIABWebViewModel
-    
+
     /// Constructor method.
     /// - Parameter model: View Model containing all the customisable elements.
     init(_ model: OSIABWebViewModel) {
         self._model = StateObject(wrappedValue: model)
     }
-    
+
     var body: some View {
         ZStack {
             OSIABWebView(model)
@@ -39,7 +39,7 @@ private extension OSIABWebViewModel {
             )
         )
     }
-    
+
     convenience init(url: String) {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
@@ -57,28 +57,23 @@ private extension OSIABWebViewModel {
 }
 
 @available(iOS 14.0, *)
-#Preview("Default - Light Mode") {
-    OSIABWebViewWrapperView(.init())
-}
+struct OSIABWebViewWrapperView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Default - Light Mode
+        OSIABWebViewWrapperView(.init())
 
-@available(iOS 14.0, *)
-#Preview("Default - Dark Mode") {
-    OSIABWebViewWrapperView(.init())
-        .preferredColorScheme(.dark)
-}
+        // Default - Dark Mode
+        OSIABWebViewWrapperView(.init())
+            .preferredColorScheme(.dark)
 
-@available(iOS 14.0, *)
-#Preview("Bottom Toolbar Defined") {
-    OSIABWebViewWrapperView(.init(toolbarPosition: .bottom))
-}
+        // Bottom Toolbar Defined
+        OSIABWebViewWrapperView(.init(toolbarPosition: .bottom))
 
-@available(iOS 14.0, *)
-#Preview("Error View - Light mode") {
-    OSIABWebViewWrapperView(.init(url: "https://outsystems/"))
-}
+        // Error View - Light mode
+        OSIABWebViewWrapperView(.init(url: "https://outsystems/"))
 
-@available(iOS 14.0, *)
-#Preview("Error View - Dark mode") {
-    OSIABWebViewWrapperView(.init(url: "https://outsystems/"))
-        .preferredColorScheme(.dark)
+        // Error View - Dark mode
+        OSIABWebViewWrapperView(.init(url: "https://outsystems/"))
+            .preferredColorScheme(.dark)
+    }
 }

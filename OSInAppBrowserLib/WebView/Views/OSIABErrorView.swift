@@ -46,10 +46,12 @@ struct OSIABErrorView: View {
     }
 }
 
-#Preview("Default - Error Light") {
-    OSIABErrorView(
-        NSError(domain: "Preview", code: NSURLErrorBadURL), 
-        reload: { print("Clicked reload") },
-        reloadViewLayoutDirection: .fixed(value: .leftToRight)
-    )
+struct OSIABErrorView_Previews: PreviewProvider {
+    static var previews: some View {
+        OSIABErrorView(
+            NSError(domain: "Preview", code: NSURLErrorBadURL),
+            reload: { print("Clicked reload") },
+            reloadViewLayoutDirection: .fixed(value: .leftToRight)
+        )
+    }
 }

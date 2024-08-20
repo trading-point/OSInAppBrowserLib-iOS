@@ -32,11 +32,11 @@ private struct OSIABActivityIndicator: UIViewRepresentable {
         self._isAnimating = isAnimating
         self.style = style
     }
-
+    
     func makeUIView(context: UIViewRepresentableContext<OSIABActivityIndicator>) -> UIActivityIndicatorView {
         return UIActivityIndicatorView(style: style)
     }
-
+    
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<OSIABActivityIndicator>) {
         if self.isAnimating {
             uiView.startAnimating()
@@ -79,24 +79,24 @@ private extension OSIABWebViewModel {
     }
 }
 
-#Preview("Default - Light Mode") {
-    OSIABWebView13WrapperView(.init())
-}
-
-#Preview("Default - Dark Mode") {
-    OSIABWebView13WrapperView(.init())
-        .preferredColorScheme(.dark)
-}
-
-#Preview("Bottom Toolbar Defined") {
-    OSIABWebView13WrapperView(.init(toolbarPosition: .bottom))
-}
-
-#Preview("Error View - Light mode") {
-    OSIABWebView13WrapperView(.init(url: "https://outsystems/"))
-}
-
-#Preview("Error View - Dark mode") {
-    OSIABWebView13WrapperView(.init(url: "https://outsystems/"))
-        .preferredColorScheme(.dark)
+struct OSIABWebView13WrapperView_Previews: PreviewProvider {
+    static var previews: some View {
+        
+        // Default - Light Mode
+        OSIABWebView13WrapperView(.init())
+        
+        // Default - Dark Mode
+        OSIABWebView13WrapperView(.init())
+            .preferredColorScheme(.dark)
+        
+        // Bottom Toolbar Defined
+        OSIABWebView13WrapperView(.init(toolbarPosition: .bottom))
+        
+        // Error View - Light mode
+        OSIABWebView13WrapperView(.init(url: "https://outsystems/"))
+        
+        // Error View - Dark mode
+        OSIABWebView13WrapperView(.init(url: "https://outsystems/"))
+            .preferredColorScheme(.dark)
+    }
 }

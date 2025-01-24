@@ -80,9 +80,31 @@ private extension OSIABWebViewModel {
         closeButtonText: String,
         onBrowserClosed: @escaping (Bool) -> Void
     ) {
+        self.init(
+            urlRequest: .init(url: .init(string: url)!),
+            showURL: showURL,
+            showToolbar: showToolbar,
+            toolbarPosition: toolbarPosition,
+            showNavigationButtons: showNavigationButtons,
+            leftToRight: leftToRight,
+            closeButtonText: closeButtonText,
+            onBrowserClosed: onBrowserClosed
+        )
+    }
+    
+    convenience init(
+        urlRequest: URLRequest,
+        showURL: Bool,
+        showToolbar: Bool,
+        toolbarPosition: OSIABToolbarPosition,
+        showNavigationButtons: Bool,
+        leftToRight: Bool,
+        closeButtonText: String,
+        onBrowserClosed: @escaping (Bool) -> Void
+    ) {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
-            url: .init(string: url)!,
+            urlRequest: urlRequest,
             configurationModel.toWebViewConfiguration(),
             uiModel: .init(
                 showURL: showURL,

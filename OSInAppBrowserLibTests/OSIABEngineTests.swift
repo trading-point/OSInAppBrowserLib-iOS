@@ -28,7 +28,8 @@ final class OSIABEngineTests: XCTestCase {
     
     func test_open_webViewWithoutIssues_doesOpen() {
         let routerSpy = OSIABWebViewRouterSpy(shouldOpen: UIViewController())
-        makeSUT().openWebView(url, routerDelegate: routerSpy) { XCTAssertNotNil($0) }
+        let request = URLRequest(url: url)
+        makeSUT().openWebView(request, routerDelegate: routerSpy) { XCTAssertNotNil($0) }
     }
 }
 

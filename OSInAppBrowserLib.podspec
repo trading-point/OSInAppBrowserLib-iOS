@@ -21,8 +21,10 @@ Pod::Spec.new do |spec|
   spec.license                = { :type => 'MIT', :file => 'LICENSE' }
   spec.author                 = { 'OutSystems Mobile Ecosystem' => 'rd.mobileecosystem.team@outsystems.com' }
   
-  spec.source                 = { :http => "https://github.com/OutSystems/OSInAppBrowserLib-iOS/releases/download/#{spec.version}/OSInAppBrowserLib.zip", :type => "zip" }
-  spec.vendored_frameworks    = "OSInAppBrowserLib.xcframework"
+  # spec.source                 = { :http => "https://github.com/OutSystems/OSInAppBrowserLib-iOS/releases/download/#{spec.version}/OSInAppBrowserLib.zip", :type => "zip" }
+  # spec.vendored_frameworks    = "OSInAppBrowserLib.xcframework"
+  spec.source                 = { :git => 'https://github.com/trading-point/OSInAppBrowserLib-iOS.git', :branch => 'test' }
+  spec.source_files           = 'OSInAppBrowserLib/**/*.{swift,h,m,c,cc,mm,cpp}'
 
   spec.ios.deployment_target  = '13.0'
   spec.swift_versions         = ['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8', '5.9']

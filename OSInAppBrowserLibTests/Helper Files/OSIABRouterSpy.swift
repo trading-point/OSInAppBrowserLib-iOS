@@ -25,14 +25,14 @@ struct OSIABSystemRouterSpy: OSIABRouter {
     }
 }
 
-struct OSIABWebViewRouterSpy: OSIABRouter {
+struct OSIABWebViewRouterSpy: OSIABWebViewRouter {
     private var shouldOpenView: UIViewController
     
     init(shouldOpen viewController: UIViewController) {
         self.shouldOpenView = viewController
     }
     
-    func handleOpen(_ url: URL, _ completionHandler: @escaping (UIViewController) -> Void) {
+    func handleOpen(_ url: URLRequest, _ completionHandler: @escaping (UIViewController) -> Void) {
         completionHandler(shouldOpenView)
     }
 }

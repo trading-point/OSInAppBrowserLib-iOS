@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Adapter that makes the required calls so that an `WKWebView` implementation can perform the Web View routing.
 /// This is done via a customisable interface.
-public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
+public class OSIABWebViewRouterAdapter: NSObject, OSIABWebViewRouter {
     public typealias ReturnType = UIViewController
     
     /// Object that contains the value to format the visual presentation.
@@ -26,8 +26,8 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
         self.cacheManager = cacheManager
         self.callbackHandler = callbackHandler
     }
-        
-    public func handleOpen(_ url: URL, _ completionHandler: @escaping (ReturnType) -> Void) {
+    
+    public func handleOpen(_ urlRequest: URLRequest, _ completionHandler: @escaping (UIViewController) -> Void) {
         if self.options.clearCache {
             self.cacheManager.clearCache()
         } else if self.options.clearSessionCache {
@@ -35,7 +35,7 @@ public class OSIABWebViewRouterAdapter: NSObject, OSIABRouter {
         }
         
         let viewModel = OSIABWebViewModel(
-            url: url,
+            urlRequest: urlRequest,
             self.options.toConfigurationModel().toWebViewConfiguration(),
             self.options.allowOverScroll,
             self.options.customUserAgent,

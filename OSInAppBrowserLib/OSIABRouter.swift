@@ -9,3 +9,12 @@ public protocol OSIABRouter {
     /// - Parameter completionHandler: The callback with the result of opening the url.
     func handleOpen(_ url: URL, _ completionHandler: @escaping (ReturnType) -> Void)
 }
+
+public protocol OSIABWebViewRouter {
+    associatedtype ReturnType
+    
+    /// Handles opening the passed `urlRequest`.
+    /// - Parameter urlRequest: URLRequest to be opened.
+    /// - Parameter completionHandler: The callback with the result of opening the url.
+    func handleOpen(_ urlRequest: URLRequest, _ completionHandler: @escaping (ReturnType) -> Void)
+}

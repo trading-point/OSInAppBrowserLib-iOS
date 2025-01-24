@@ -21,7 +21,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     private var firstLoadDone: Bool = false
     
     /// The current URL being displayed
-    @Published private(set) var url: URL
+    @Published private(set) var urlRequest: URLRequest
     /// Indicates if the URL is being loaded into the screen.
     @Published private(set) var isLoading: Bool = true
     /// Indicates if there was any error while loading the URL.
@@ -38,28 +38,28 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     
     /// Constructor method.
     /// - Parameters:
-    ///   - url: The current URL being displayed
+    ///   - urlRequest: The current URLRequest being displayed
     ///   - webViewConfiguration: Collection of properties with which to initialize the WebView.
     ///   - scrollViewBounces: Indicates if the WebView's bounce property should be enabled. Defaults to `true`.
     ///   - customUserAgent: Sets a custom user agent for the WebView.
     ///   - uiModel: Collection of properties to apply to the WebView's interface.
     ///   - callbackHandler: Object that manages all the callbacks available for the WebView.
     init(
-        url: URL,
+        urlRequest: URLRequest,
         _ webViewConfiguration: WKWebViewConfiguration,
         _ scrollViewBounces: Bool = true,
         _ customUserAgent: String? = nil,
         uiModel: OSIABWebViewUIModel,
         callbackHandler: OSIABWebViewCallbackHandler
     ) {
-        self.url = url
+        self.urlRequest = urlRequest
         self.webView = .init(frame: .zero, configuration: webViewConfiguration)
         self.closeButtonText = uiModel.closeButtonText
         self.callbackHandler = callbackHandler
         if uiModel.showToolbar {
             self.toolbarPosition = uiModel.toolbarPosition
             if uiModel.showURL {
-                self.addressLabel = url.absoluteString
+                self.addressLabel = urlRequest.url?.absoluteString ?? ""
             }
         } else {
             self.toolbarPosition = nil
@@ -84,8 +84,11 @@ class OSIABWebViewModel: NSObject, ObservableObject {
                 .assign(to: &$isLoading)
             
             self.webView.publisher(for: \.url)
-                .compactMap { $0 }
-                .assign(to: &$url)
+                .compactMap { url in
+                    guard let url else { return nil }
+                    return URLRequest(url: url)
+                }
+                .assign(to: &$urlRequest)
             
             if showToolbar {
                 if showNavigationButtons {
@@ -97,7 +100,9 @@ class OSIABWebViewModel: NSObject, ObservableObject {
                 }
                 
                 if showURL {
-                    self.$url.map(\.absoluteString)
+                    self.$urlRequest
+                        .compactMap(\.url)
+                        .map(\.absoluteString)
                         .assign(to: &$addressLabel)
                 }
             }
@@ -107,8 +112,11 @@ class OSIABWebViewModel: NSObject, ObservableObject {
                 .store(in: &cancellables)
             
             self.webView.publisher(for: \.url)
-                .compactMap { $0 }
-                .assign(to: \.url, on: self)
+                .compactMap { url in
+                    guard let url else { return nil }
+                    return URLRequest(url: url)
+                }
+                .assign(to: \.urlRequest, on: self)
                 .store(in: &cancellables)
             
             if showToolbar {
@@ -123,7 +131,9 @@ class OSIABWebViewModel: NSObject, ObservableObject {
                 }
                 
                 if showURL {
-                    self.$url.map(\.absoluteString)
+                    self.$urlRequest
+                        .compactMap(\.url)
+                        .map(\.absoluteString)
                         .assign(to: \.addressLabel, on: self)
                         .store(in: &cancellables)
                 }
@@ -133,7 +143,7 @@ class OSIABWebViewModel: NSObject, ObservableObject {
     
     /// Loads the URL within the WebView. Is the first operation to be performed when the view is displayed.
     func loadURL() {
-        self.webView.load(.init(url: self.url))
+        self.webView.load(urlRequest)
     }
     
     /// Signals the WebView to move forward. This is performed as a reaction to a button click.

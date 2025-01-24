@@ -1,20 +1,19 @@
 import WebKit
 
 class OSIABNavigationActionStub: WKNavigationAction {
-    var url: URL
+    var urlRequest: URLRequest
     var mainDocumentURL: URL
     var useTargetFrame: Bool
     
-    init(_ url: URL, mainDocumentURL: URL? = nil, useTargetFrame: Bool = false) {
-        self.url = url
-        self.mainDocumentURL = mainDocumentURL ?? url
+    init(_ urlRequest: URLRequest, mainDocumentURL: URL? = nil, useTargetFrame: Bool = false) {
+        self.urlRequest = urlRequest
+        self.mainDocumentURL = mainDocumentURL ?? urlRequest.url!
         self.useTargetFrame = useTargetFrame
     }
     
     override var request: URLRequest {
-        var result = URLRequest(url: self.url)
-        result.mainDocumentURL = self.mainDocumentURL
-        return result
+        urlRequest.mainDocumentURL = mainDocumentURL
+        return urlRequest
     }
     
     override var targetFrame: WKFrameInfo? {

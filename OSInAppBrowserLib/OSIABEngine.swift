@@ -1,7 +1,7 @@
 import UIKit
 
 /// Structure responsible for managing all InAppBrowser interactions.
-public struct OSIABEngine<ExternalBrowser: OSIABRouter, SystemBrowser: OSIABRouter, WebView: OSIABRouter>
+public struct OSIABEngine<ExternalBrowser: OSIABRouter, SystemBrowser: OSIABRouter, WebView: OSIABWebViewRouter>
 where ExternalBrowser.ReturnType == Bool, SystemBrowser.ReturnType == UIViewController, WebView.ReturnType == UIViewController {
     /// Constructor method.
     public init() {
@@ -25,12 +25,12 @@ where ExternalBrowser.ReturnType == Bool, SystemBrowser.ReturnType == UIViewCont
         routerDelegate.handleOpen(url, completionHandler)
     }
     
-    /// Delegates opening the passed `url` to the Web View.
+    /// Delegates opening the passed `urlRequest` to the Web View.
     /// - Parameters:
-    ///   - url: URL to be opened.
-    ///   - routerDelegate: The Web View that will open the url.
-    ///   - completionHandler: The callback with the result of opening the url using the Web View.
-    public func openWebView(_ url: URL, routerDelegate: WebView, _ completionHandler: @escaping (WebView.ReturnType) -> Void) {
-        routerDelegate.handleOpen(url, completionHandler)
+    ///   - urlRequest: URLRequest to be opened.
+    ///   - routerDelegate: The Web View that will open the urlRequest.
+    ///   - completionHandler: The callback with the result of opening the urlRequest using the Web View.
+    public func openWebView(_ urlRequest: URLRequest, routerDelegate: WebView, _ completionHandler: @escaping (WebView.ReturnType) -> Void) {
+        routerDelegate.handleOpen(urlRequest, completionHandler)
     }
 }

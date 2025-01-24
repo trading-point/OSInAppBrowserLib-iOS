@@ -3,10 +3,10 @@ import XCTest
 @testable import OSInAppBrowserLib
 
 final class OSIABWebViewRouterAdapterTests: XCTestCase {
-    let validURL = URL(string: "http://outsystems.com")!
+    let validURLRequest = URLRequest(url: URL(string: "http://outsystems.com")!)
     
     func test_handleOpen_validURL_doesReturnHostingViewController() {
-        makeSUT().handleOpen(validURL) { XCTAssertNotNil($0) }
+        makeSUT().handleOpen(validURLRequest) { XCTAssertNotNil($0) }
     }
     
     // MARK: Clear Cache Tests
@@ -15,7 +15,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         let cacheManager = OSIABCacheManagerStub(cacheWasCleared: false)
         XCTAssertFalse(cacheManager.cacheWasCleared)
         
-        makeSUT(cacheManager: cacheManager).handleOpen(validURL) { _ in }
+        makeSUT(cacheManager: cacheManager).handleOpen(validURLRequest) { _ in }
         XCTAssertTrue(cacheManager.cacheWasCleared)
     }
     
@@ -24,7 +24,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         XCTAssertFalse(cacheManager.cacheWasCleared)
         
         let options = OSIABWebViewOptions(clearCache: false)
-        makeSUT(options, cacheManager: cacheManager).handleOpen(validURL) { _ in }
+        makeSUT(options, cacheManager: cacheManager).handleOpen(validURLRequest) { _ in }
         
         XCTAssertFalse(cacheManager.cacheWasCleared)
     }
@@ -36,7 +36,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         XCTAssertFalse(cacheManager.sessionCacheWasCleared)
         
         let options = OSIABWebViewOptions(clearCache: false)
-        makeSUT(options, cacheManager: cacheManager).handleOpen(validURL) { _ in }
+        makeSUT(options, cacheManager: cacheManager).handleOpen(validURLRequest) { _ in }
         XCTAssertTrue(cacheManager.sessionCacheWasCleared)
     }
     
@@ -44,7 +44,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         let cacheManager = OSIABCacheManagerStub(sessionCacheWasCleared: false)
         XCTAssertFalse(cacheManager.sessionCacheWasCleared)
         
-        makeSUT(cacheManager: cacheManager).handleOpen(validURL) { _ in }
+        makeSUT(cacheManager: cacheManager).handleOpen(validURLRequest) { _ in }
         
         XCTAssertFalse(cacheManager.sessionCacheWasCleared)
     }
@@ -54,7 +54,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         XCTAssertFalse(cacheManager.sessionCacheWasCleared)
         
         let options = OSIABWebViewOptions(clearSessionCache: false)
-        makeSUT(options, cacheManager: cacheManager).handleOpen(validURL) { _ in }
+        makeSUT(options, cacheManager: cacheManager).handleOpen(validURLRequest) { _ in }
         
         XCTAssertFalse(cacheManager.sessionCacheWasCleared)
     }
@@ -62,7 +62,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
     // MARK: View Style Tests
     
     func test_handleOpen_noViewStyle_doesReturnWithDefaultViewStyle() {
-        makeSUT().handleOpen(validURL) {
+        makeSUT().handleOpen(validURLRequest) {
             XCTAssertEqual(
                 $0.modalPresentationStyle, OSIABViewStyle.defaultValue.toModalPresentationStyle()
             )
@@ -71,7 +71,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
     
     func test_handleOpen_withViewStyle_doesReturnWithSpecifiedViewStyle() {
         let options = OSIABWebViewOptions(viewStyle: .pageSheet)
-        makeSUT(options).handleOpen(validURL) {
+        makeSUT(options).handleOpen(validURLRequest) {
             XCTAssertEqual(
                 $0.modalPresentationStyle, OSIABViewStyle.pageSheet.toModalPresentationStyle()
             )
@@ -81,7 +81,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
     // MARK: Animation Effect Tests
     
     func test_handleOpen_noAnimationEffect_doesReturnWithDefaultAnimationEffect() {
-        makeSUT().handleOpen(validURL) {
+        makeSUT().handleOpen(validURLRequest) {
             XCTAssertEqual(
                 $0.modalTransitionStyle, OSIABAnimationEffect.defaultValue.toModalTransitionStyle()
             )
@@ -90,7 +90,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
     
     func test_handleOpen_withAnimationEffect_doesReturnWithSpecifiedAnimationEffect() {
         let options = OSIABWebViewOptions(animationEffect: .flipHorizontal)
-        makeSUT(options).handleOpen(validURL) {
+        makeSUT(options).handleOpen(validURLRequest) {
             XCTAssertEqual(
                 $0.modalTransitionStyle, OSIABAnimationEffect.flipHorizontal.toModalTransitionStyle()
             )
@@ -105,7 +105,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         makeSUT(onBrowserClosed: { param in
             isBrowserAlreadyClosed = param
             expectation.fulfill()
-        }).handleOpen(validURL) {
+        }).handleOpen(validURLRequest) {
             if let presentationController = $0.presentationController {
                 presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
             }
@@ -120,7 +120,7 @@ final class OSIABWebViewRouterAdapterTests: XCTestCase {
         makeSUT { param in
             isBrowserAlreadyClosed = param
             expectation.fulfill()
-        }.handleOpen(validURL) {
+        }.handleOpen(validURLRequest) {
             $0.dismiss(animated: false)
         }
         waitForExpectations(timeout: 1)

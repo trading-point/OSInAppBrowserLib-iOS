@@ -51,7 +51,7 @@ private extension OSIABWebViewModel {
     convenience init(toolbarPosition: OSIABToolbarPosition = .defaultValue) {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
-            url: .init(string: "https://outsystems.com")!,
+            urlRequest: .init(url: .init(string: "https://outsystems.com")!),
             configurationModel.toWebViewConfiguration(),
             uiModel: .init(toolbarPosition: toolbarPosition),
             callbackHandler: .init(
@@ -64,9 +64,13 @@ private extension OSIABWebViewModel {
     }
     
     convenience init(url: String) {
+        self.init(urlRequest: .init(url: .init(string: url)!))
+    }
+    
+    convenience init(urlRequest: URLRequest) {
         let configurationModel = OSIABWebViewConfigurationModel()
         self.init(
-            url: .init(string: url)!,
+            urlRequest: urlRequest,
             configurationModel.toWebViewConfiguration(),
             uiModel: .init(),
             callbackHandler: .init(

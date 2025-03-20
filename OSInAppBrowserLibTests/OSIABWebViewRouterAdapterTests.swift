@@ -141,7 +141,8 @@ private extension OSIABWebViewRouterAdapterTests {
                 onDelegateURL: { _ in },
                 onDelegateAlertController: { _ in },
                 onBrowserPageLoad: {},
-                onBrowserClosed: onBrowserClosed
+                onBrowserClosed: onBrowserClosed,
+                onBrowserPageNavigationCompleted: { _ in }
             )
         )
     }

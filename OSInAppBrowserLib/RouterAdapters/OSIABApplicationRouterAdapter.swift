@@ -9,7 +9,7 @@ public protocol OSIABApplicationDelegate: AnyObject {
 
 /// Provide a default implementations that abstracts the options parameter.
 extension OSIABApplicationDelegate {
-    func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any] = [:], completionHandler completion: ((Bool) -> Void)?) {
+    public func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any] = [:], completionHandler completion: ((Bool) -> Void)?) {
         self.open(url, options: options, completionHandler: completion)
     }
 }

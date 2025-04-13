@@ -192,6 +192,8 @@ extension OSIABWebViewModel: WKNavigationDelegate {
         if !self.firstLoadDone {
             self.callbackHandler.onBrowserPageLoad()
             self.firstLoadDone = true
+        } else {
+            self.callbackHandler.onBrowserPageNavigationCompleted(url.absoluteString)
         }
         error = nil
     }

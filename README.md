@@ -61,7 +61,7 @@ func openExternalBrowser(_ url: URL, routerDelegate: ExternalBrowser, _ completi
 
 Uses the parameter `routerDelegate` - an object that offers an External Browser interface - to open the parameter `url`. The method is composed of the following input parameters:
 - **url**: the URL for the web page to be opened.
-- **routerDelegate**: The External Browser interface that will open the URL. Its return type should be `Bool`. The library provides an `OSIABApplicationRouterAdapter` class that allows a class that implements `OSIABApplicationDelegate` (like `UIApplication`, that uses the device's default browser) to open it. 
+- **routerDelegate**: The External Browser interface that will open the URL. Its return type should be `Bool`.
 - **completionHandler**: The callback with the result of opening the URL with the External Browser interface.
 
 ### Open a URL in a System Browser

@@ -181,6 +181,20 @@ final class OSIABViewModelTests: XCTestCase {
         XCTAssertEqual(resultAction, .allow)
     }
     
+    func test_navigateToNewPage_onBrowserPageNavigationCompletedEventShouldBeTrigged() {
+        var result: String? = nil
+        let expectation = self.expectation(description: "Trigger onBrowserPageNavigationCompleted Event")
+
+        let sut = makeSUT(url, onBrowserPageNavigationCompleted: { data in
+            result = data
+            expectation.fulfill()
+        })
+        sut.webView(sut.webView, didFinish: nil)
+        sut.webView(sut.webView, didFinish: nil)
+        waitForExpectations(timeout: 1)
+        XCTAssertEqual(url.absoluteString, result)
+    }
+    
     // MARK: Browser Page Load Event Tests
     
     func test_navigateToURL_whenFinished_triggerPageLoadEventOnFirstTime() {
@@ -275,7 +289,8 @@ private extension OSIABViewModelTests {
         onDelegateURL: @escaping (URL) -> Void = { _ in },
         onDelegateAlertController: @escaping (UIAlertController) -> Void = { _ in },
         onBrowserPageLoad: @escaping () -> Void = {},
-        onBrowserClosed: @escaping (Bool) -> Void = { _ in }
+        onBrowserClosed: @escaping (Bool) -> Void = { _ in },
+        onBrowserPageNavigationCompleted: @escaping (String?) -> Void = { _ in }
     ) -> OSIABWebViewModel {
         let configurationModel = OSIABWebViewConfigurationModel(
             mediaTypesRequiringUserActionForPlayback, ignoresViewportScaleLimits, allowsInlineMediaPlayback, surpressesIncrementalRendering
@@ -297,7 +312,8 @@ private extension OSIABViewModelTests {
                 onDelegateURL: onDelegateURL,
                 onDelegateAlertController: onDelegateAlertController,
                 onBrowserPageLoad: onBrowserPageLoad,
-                onBrowserClosed: onBrowserClosed
+                onBrowserClosed: onBrowserClosed,
+                onBrowserPageNavigationCompleted: onBrowserPageNavigationCompleted
             )
         )
     }

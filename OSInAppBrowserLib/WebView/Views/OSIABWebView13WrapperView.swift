@@ -58,7 +58,8 @@ private extension OSIABWebViewModel {
                 onDelegateURL: { _ in },
                 onDelegateAlertController: { _ in },
                 onBrowserPageLoad: {},
-                onBrowserClosed: { _ in }
+                onBrowserClosed: { _ in },
+                onBrowserPageNavigationCompleted: { _ in }
             )
         )
     }
@@ -77,7 +78,8 @@ private extension OSIABWebViewModel {
                 onDelegateURL: { _ in },
                 onDelegateAlertController: { _ in },
                 onBrowserPageLoad: {},
-                onBrowserClosed: { _ in }
+                onBrowserClosed: { _ in },
+                onBrowserPageNavigationCompleted:  { _ in }
             )
         )
     }
